@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Визитка — Ваше имя</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #c9c2b5;
+      background: #252a33;
+    }
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.06;
+    }
+    .grain rect { filter: url(#grain-filter); }
+    .wrap {
+      position: relative;
+      z-index: 0;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    header {
+      padding: 4rem 0 3rem;
+      text-align: center;
+    }
+    .hero-photo-wrap {
+      position: relative;
+      margin: 0 auto 1.5rem;
+      width: 180px;
+      height: 180px;
+      padding: 4px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #3a3548 0%, #2a2535 100%);
+      box-shadow: 0 6px 24px rgba(25, 28, 45, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+    .hero-photo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(ellipse 90% 85% at 50% 35%, rgba(140, 95, 50, 0.12), transparent 55%), linear-gradient(180deg, transparent 25%, rgba(28, 45, 75, 0.28) 100%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 34%;
+      display: block;
+      border: 3px solid #8a7d6a;
+      box-sizing: border-box;
+      filter: contrast(1.12) brightness(0.92) saturate(0.98) hue-rotate(-8deg);
+      transform: scale(1.08);
+    }
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 700;
+      color: #e0d9c8;
+      letter-spacing: -0.02em;
+    }
+    .hero-title {
+      margin: 0 0 1rem;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #b8a990;
+    }
+    .hero-desc {
+      margin: 0;
+      font-size: 1rem;
+      color: #a89d88;
+      max-width: 36ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    main { padding: 0 0 3rem; }
+    section {
+      padding: 2rem 0;
+      border-top: 1px solid rgba(180, 165, 130, 0.2);
+    }
+    section:first-of-type { border-top: none; }
+    h2 {
+      margin: 0 0 1.25rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #c4b89a;
+    }
+    h3 {
+      margin: 1.5rem 0 0.75rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #b8a990;
+    }
+    h3:first-of-type { margin-top: 0; }
+    section p {
+      margin: 0 0 1rem;
+      color: #b5ad9e;
+    }
+    section p:last-child { margin-bottom: 0; }
+    .contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .contacts a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.95rem;
+      color: #b8a990;
+      text-decoration: none;
+      border: 1px solid rgba(168, 146, 112, 0.4);
+      border-radius: 6px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .contacts a:hover {
+      background: rgba(168, 146, 112, 0.15);
+      border-color: rgba(200, 180, 140, 0.5);
+      color: #d4c4a8;
+    }
+    .contacts a:focus {
+      outline: 2px solid #a89270;
+      outline-offset: 2px;
+    }
+    .contacts svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex-shrink: 0;
+    }
+    @media (max-width: 600px) {
+      .wrap { padding: 1.25rem 1rem 3rem; }
+      header { padding: 3rem 0 2rem; }
+      .hero-photo-wrap { width: 147px; height: 147px; padding: 3px; margin-bottom: 1.25rem; }
+      h1 { font-size: 1.75rem; }
+      .hero-title { font-size: 1rem; }
+      .hero-desc { font-size: 0.95rem; }
+      section { padding: 1.5rem 0; }
+      h2 { font-size: 1.1rem; }
+      body { font-size: 1rem; }
+      .contacts a {
+        padding: 0.75rem 1.25rem;
+        min-height: 44px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg class="grain" aria-hidden="true" width="100%" height="100%">
+    <filter id="grain-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="4" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="mono"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grain-filter)"/>
+  </svg>
+  <div class="wrap">
+    <header>
+      <div class="hero-photo-wrap">
+        <img class="hero-photo" src="img/hero.jpg" alt="Ваше имя" width="180" height="180">
+      </div>
+      <h1>Ваше имя</h1>
+      <p class="hero-title">Краткий подзаголовок — чем занимаетесь</p>
+      <p class="hero-desc">Одна строка: опыт или слоган для визитки.</p>
+    </header>
+    <main>
+      <section id="about" aria-labelledby="about-heading">
+        <h2 id="about-heading">Обо мне</h2>
+        <p>Замените этот абзац на свой текст: кто вы, чем занимаетесь, ключевой опыт.</p>
+        <p>Второй абзац: детали, проекты, подход к работе.</p>
+
+        <h3>Чем могу быть полезен</h3>
+        <p>Краткий список или абзац: навыки, услуги, направления.</p>
+
+        <h3>Сейчас</h3>
+        <p>На чём фокус сейчас: проекты, поиск заказов, обучение и т.п.</p>
+      </section>
+      <section id="contacts" aria-labelledby="contacts-heading">
+        <h2 id="contacts-heading">Контакты</h2>
+        <div class="contacts">
+          <a href="mailto:email@example.com" aria-label="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Email
+          </a>
+          <a href="https://github.com/username" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="https://t.me/username" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+            </svg>
+            Telegram
+          </a>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
